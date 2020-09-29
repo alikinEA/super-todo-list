@@ -10,10 +10,10 @@ import java.util.List;
  * Created by Alikin E.A. on 2020-09-27.
  */
 @RestController
-@RequestMapping(path = "/task")
+@RequestMapping(path = "/tasks")
 public class TaskController {
 
-    @GetMapping("/all")
+    @GetMapping
     public List<String> getAllTasks() {
         return List.of("task1", "task2");
     }
