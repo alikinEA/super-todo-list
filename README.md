@@ -1,2 +1,9 @@
-# super-todo-list
-Over-engineering  todo list just for test 
+# Super-todo-list
+### Descroption
+Project for testing various technologies and approaches.
+
+Implemented:
+- spring security JWT based authentication and authorization
+
+
+
