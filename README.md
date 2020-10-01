@@ -1,11 +1,11 @@
 # Super-todo-list
-### Descroption
+### Description
 Project for testing various technologies and approaches.
 
 Implemented:
 - spring security JWT based authentication and authorization
-- rate limit on redis bucket
+- rate limit on redis buckets
 
 ### run
-mvn clean install
-docker-compose up --force-recreate --remove-orphans --build
+1. mvn clean install
+2. docker-compose up --force-recreate --remove-orphans --build
