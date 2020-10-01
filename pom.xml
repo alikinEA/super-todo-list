@@ -11,6 +11,7 @@
     <groupId>ru.askael</groupId>
     <artifactId>super-todo-list</artifactId>
     <version>0.0.1</version>
+    <packaging>jar</packaging>
     <name>super-todo-list</name>
     <description>Super todo list</description>
 
@@ -66,6 +67,17 @@
             <version>2.3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>4.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.1</version>
+        </dependency>
 
     </dependencies>
 

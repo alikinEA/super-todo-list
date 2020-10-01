@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.askael.supertodolist.services.DefaultUserDetailService;
 import ru.askael.supertodolist.services.JwtService;
-
+import ru.askael.supertodolist.services.UserContext;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +22,8 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    @Autowired
+    private UserContext userContext;
 
     @Autowired
     private DefaultUserDetailService userDetailsService;
@@ -55,6 +57,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                userContext.setUserName(username);
             }
         }
         chain.doFilter(request, response);
