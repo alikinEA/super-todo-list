@@ -5,6 +5,7 @@ Project for testing various technologies and approaches.
 Implemented:
 - spring security JWT based authentication and authorization
 - rate limit on redis buckets
+- flyway + postgres
 
 ### run
 1. mvn clean install
