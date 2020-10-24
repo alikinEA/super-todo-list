@@ -27,9 +27,8 @@ public class RateLimitFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        if (rateLimitService.tryConsumeAndReturnRemaining(userContext.getUserName()) == 0) {
+        if (userContext.getUserLogin() != null && rateLimitService.tryConsumeAndReturnRemaining(userContext.getUserLogin()) == 0) {
             httpServletResponse.sendError(HttpStatus.TOO_MANY_REQUESTS.value());
-          //  throw new RuntimeException(String.format("Too many requests by user %s", userContext.getUserName()));
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

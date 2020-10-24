@@ -14,6 +14,6 @@ import org.springframework.web.context.annotation.RequestScope;
 @Setter
 public class UserContext {
 
-    private String userName;
+    private String userLogin;
 
 }

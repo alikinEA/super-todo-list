@@ -3,6 +3,7 @@ package ru.askael.supertodolist.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Alikin E.A. on 2020-09-29.
@@ -26,9 +28,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private UserContext userContext;
 
     @Autowired
-    private DefaultUserDetailService userDetailsService;
-
-    @Autowired
     private JwtService jwtService;
 
     @Override
@@ -37,30 +36,32 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String authorizationHeader = request.getHeader("Authorization");
 
-        String username = null;
+        String login = null;
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            username = jwtService.extractUsername(jwt);
+            login = jwtService.extractLogin(jwt);
         }
 
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (login != null && jwtService.validateToken(jwt)) {
 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            setUpSpringSecurityContext(login, request);
 
-            if (jwtService.validateToken(jwt, userDetails)) {
-
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                userContext.setUserName(username);
-            }
+            userContext.setUserLogin(login);
         }
         chain.doFilter(request, response);
+    }
+
+    private void setUpSpringSecurityContext(String login, HttpServletRequest request) {
+        UserDetails userDetails = new User(login, "", new ArrayList<>());
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        usernamePasswordAuthenticationToken
+                .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
 
 }

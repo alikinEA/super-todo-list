@@ -30,7 +30,7 @@ public class RedisService {
         if (CLIENT == null) {
             Config config = new Config();
             config.useSingleServer()
-                    .setAddress("redis://192.168.1.4:6379");//todo move to config
+                    .setAddress("redis://localhost:6379");//todo move to config
             CLIENT = Redisson.create(config);
         }
 

@@ -19,7 +19,7 @@ public class JwtService {
 
     private String SECRET_KEY = "secret"; //todo move to config
 
-    public String extractUsername(String token) {
+    public String extractLogin(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -51,8 +51,7 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token) {
+        return !isTokenExpired(token);
     }
 }

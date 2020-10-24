@@ -1,4 +1,4 @@
-package ru.askael.supertodolist.models;
+package ru.askael.supertodolist.models.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtTokenDTO {
+public class AuthDTO {
 
-    private String token;
+    private String login;
+    private String password;
 }
