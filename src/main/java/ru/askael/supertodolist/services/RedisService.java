@@ -4,6 +4,7 @@ import org.redisson.Redisson;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -13,6 +14,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class RedisService {
+
+    @Value("${redisHost}")
+    private String redisHost;
+
+    @Value("${redisPort}")
+    private String redisPort;
 
     private static volatile RedissonClient CLIENT;
 
@@ -30,7 +37,7 @@ public class RedisService {
         if (CLIENT == null) {
             Config config = new Config();
             config.useSingleServer()
-                    .setAddress("redis://localhost:6379");//todo move to config
+                    .setAddress("redis://" + redisHost +":" +redisPort);
             CLIENT = Redisson.create(config);
         }
 
